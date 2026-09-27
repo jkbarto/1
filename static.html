@@ -800,3 +800,23 @@ render(true);setInterval(()=>render(false),1000);
   }
 }
 </style>
+  /* Restart animation */
+  card.classList.remove("flipping");
+
+  void card.offsetWidth;
+
+  card.classList.add("flipping");
+
+  /* Change bottom half midway through flip */
+  setTimeout(() => {
+    staticBottom.textContent = next;
+  }, 280);
+
+  /* Finish flip and lock in new number */
+  setTimeout(() => {
+    card.classList.remove("flipping");
+    snap(card, next);
+  }, 590);
+};
+
+</script>
