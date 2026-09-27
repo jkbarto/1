@@ -764,10 +764,39 @@ render(true);setInterval(()=>render(false),1000);
   .countdown .digits{height:auto !important;}
   .countdown .label{margin-top:.65vh !important;}
 }
+<style>
+/* Restore flip animation while preserving the static layout */
+.flip-half {
+  display: block !important;
+}
+
+.flip-card.flipping .flip-half.top {
+  animation: flipTop .28s cubic-bezier(.55,.05,.85,.35) forwards !important;
+}
+
+.flip-card.flipping .flip-half.bottom {
+  animation: flipBottom .28s .28s cubic-bezier(.15,.45,.25,1) forwards !important;
+}
+
+@keyframes flipTop {
+  0% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+  100% {
+    transform: rotateX(-90deg);
+    filter: brightness(.62);
+  }
+}
+
+@keyframes flipBottom {
+  0% {
+    transform: rotateX(90deg);
+    filter: brightness(.62);
+  }
+  100% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+}
 </style>
-<script id="static-countdown-update">
-/* Keep the countdown live, but replace the flip animation with an immediate in-place update. */
-flip = function(card,next){
-  if(card.dataset.value !== next) snap(card,next);
-};
-</script>
