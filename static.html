@@ -748,6 +748,49 @@ html, body {
 }
 </style>
 
+
+<style id="portrait-tv-larger-signage">
+/* Larger portrait-TV signage layout */
+#portrait-tv-rotation > .screen {
+  box-sizing: border-box !important;
+  padding: 4.5vh 4vw !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+/* Make the major content groups use much more of the portrait canvas. */
+#portrait-tv-rotation .brand,
+#portrait-tv-rotation .hero,
+#portrait-tv-rotation .countdown,
+#portrait-tv-rotation .date,
+#portrait-tv-rotation .mascot {
+  transform: scale(1.32);
+  transform-origin: center center;
+}
+
+/* Countdown is the focal point and should read clearly across the office. */
+#portrait-tv-rotation .countdown {
+  transform: scale(1.48);
+}
+
+/* Keep enlarged items from clipping against the sides. */
+#portrait-tv-rotation .brand,
+#portrait-tv-rotation .hero,
+#portrait-tv-rotation .countdown,
+#portrait-tv-rotation .date,
+#portrait-tv-rotation .mascot {
+  max-width: 74%;
+}
+
+/* If the source uses common image classes, allow them to grow naturally. */
+#portrait-tv-rotation img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
 </head>
 <body>
 <div id="portrait-tv-rotation">
