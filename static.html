@@ -974,27 +974,73 @@ html, body {
 </style>
 
 
-<!-- OPTISIGNS COUNTDOWN SIZE BOOST: ~30% larger than prior OptiSigns version -->
-<style id="optisigns-countdown-size-boost">
-#portrait-tv-rotation .flip-card {
-  width: clamp(72px, 9.65vh, 122px) !important;
-  height: clamp(113px, 15.10vh, 189px) !important;
-}
-#portrait-tv-rotation .card-half span,
-#portrait-tv-rotation .flip-half span {
-  font-size: clamp(69px, 9.27vh, 117px) !important;
-}
-#portrait-tv-rotation .countdown .digits {
-  gap: clamp(3px, .30vh, 5px) !important;
-}
-</style>
-
-
-<!-- FINAL OPTISIGNS VISUAL OVERRIDE: enlarge the completed countdown as one unit -->
-<style id="optisigns-final-visual-override">
+<!-- OPTISIGNS AUTHORITATIVE COUNTDOWN SIZING — keep this as the final countdown rule -->
+<style id="optisigns-authoritative-countdown">
 #portrait-tv-rotation .countdown {
-  transform: scale(1.35) !important;
-  transform-origin: center center !important;
+  transform: none !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  gap: 3.0vh !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  overflow: visible !important;
+}
+
+#portrait-tv-rotation .countdown .unit {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+#portrait-tv-rotation .countdown .digits {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: auto !important;
+  height: auto !important;
+  gap: .42vh !important;
+}
+
+#portrait-tv-rotation .countdown .flip-card {
+  flex: 0 0 9.8vh !important;
+  width: 9.8vh !important;
+  min-width: 9.8vh !important;
+  max-width: 9.8vh !important;
+  height: 13.0vh !important;
+  min-height: 13.0vh !important;
+  max-height: 13.0vh !important;
+  transform: none !important;
+}
+
+#portrait-tv-rotation .countdown .card-half span,
+#portrait-tv-rotation .countdown .flip-half span {
+  font-size: 9.35vh !important;
+  letter-spacing: -.045em !important;
+}
+
+#portrait-tv-rotation .countdown .label {
+  display: block !important;
+  width: 100% !important;
+  margin-top: .75vw !important;
+  text-align: center !important;
+  align-self: center !important;
+  white-space: nowrap !important;
+}
+
+/* Preserve the flip itself; only the card layers animate. */
+#portrait-tv-rotation .flip-card.flipping .flip-half.top {
+  animation: flipTop .28s cubic-bezier(.55,.05,.85,.35) forwards !important;
+}
+#portrait-tv-rotation .flip-card.flipping .flip-half.bottom {
+  animation: flipBottom .28s .28s cubic-bezier(.15,.45,.25,1) forwards !important;
 }
 </style>
 
