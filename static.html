@@ -1,4 +1,3 @@
-html
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,16 +14,15 @@ html
   --white:#f7f7f2;
 }
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;background:var(--green);overflow:hidden;}
+html,body{margin:0;width:100%;height:100%;background:#222;overflow:auto;}
 body{font-family:Arial,Helvetica,sans-serif;color:white;}
 
+/* 1080x1920 Native Portrait Canvas Structure */
 .screen {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: relative;
+  margin: 40px auto; 
   width: 1080px;
   height: 1920px;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,6 +30,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;}
   gap: 0;
   padding: 60px 40px 0;
   overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
   background:
     radial-gradient(circle at 20% 76%, rgba(201,151,0,.18), transparent 16%),
     radial-gradient(circle at 82% 72%, rgba(255,255,255,.07), transparent 17%),
@@ -47,7 +46,8 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;}
   opacity:.9;
   z-index: 1;
 }
-.official-nova{
+
+.official-nova {
   position:relative;
   z-index:3;
   width:94%;
@@ -60,10 +60,19 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;}
   align-items: center;
 }
 .official-nova img{display:block;width:100%;max-width:800px;height:auto;}
-.logo-wrap{position:relative;z-index:3;margin:20px 0 65px;width:100%;display:flex;justify-content:center;align-items:center;}
+
+.logo-wrap {
+  position:relative;
+  z-index:3;
+  margin:20px 0 65px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .logo-wrap img{display:block;width:100%;max-width:960px;height:auto;}
 
-/* FIX 1: Changed grid to a flexible flexbox layout to allow units to bunch naturally */
+/* Groups the visual tracking layout timeline items */
 .countdown {
   position:relative;
   z-index:4;
@@ -73,15 +82,16 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;}
   display:flex;
   justify-content:center;
   align-items:center;
-  gap: 35px; /* Spacing between Days, Hours, Minutes, and Seconds blocks */
+  gap: 45px; 
 }
 .unit {
   text-align:center;
 }
+/* Bunches the inside numbers tightly together */
 .digits {
   display:flex;
   justify-content:center;
-  gap:6px; /* Tight inner grouping spacing for digits */
+  gap:6px; 
 }
 .flip-card {
   position:relative;
@@ -124,9 +134,15 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;}
 .date-row {position:relative;z-index:4;width:100%;display:flex;align-items:center;gap:25px;margin-bottom:20px;padding:0 40px;}
 .rule{flex:1;height:4px;background:var(--gold)}
 .date {white-space:nowrap;text-align:center;font-size:48px;line-height:1;font-weight:800;letter-spacing:.015em;}
-.lower-art{position:relative;z-index:1;flex:1;width:100%;margin-top:30px;min-height:350px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-top:3px solid rgba(201,151,0,.9);}
+
+.lower-art{
+  position:relative;z-index:1;flex:1;width:100%;margin-top:30px;min-height:350px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  border-top:3px solid rgba(201,151,0,.9);
+}
 .lower-art::before{content:"";position:absolute;left:0;right:0;bottom:0;top:0;width:100%;height:100%;background:radial-gradient(circle at 50% 120%, rgba(201,151,0,.18), transparent 48%),linear-gradient(180deg,rgba(0,59,37,.05),rgba(0,35,24,.58));}
 .lower-art img{position:absolute;right:50%;bottom:50%;transform:translate(50%,50%);width:460px;height:auto;max-height:250px;object-fit:contain;opacity:.14;mix-blend-mode:screen;filter:saturate(.6);}
+
 .tagline, .year-mark, .nova {display:none!important;}
 </style>
 </head>
@@ -134,15 +150,18 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;}
 <div class="screen">
   <div class="official-nova"><img src="official-logo.png" alt="Official Logo"></div>
   <div class="logo-wrap"><img src="main-theme-logo.png" alt="Commencement Theme Graphic"></div>
+  
   <div class="countdown" id="countdownContainer">
     <div class="unit"><div class="digits" id="days-box"></div><div class="label">Days</div></div>
     <div class="unit"><div class="digits" id="hours-box"></div><div class="label">Hours</div></div>
     <div class="unit"><div class="digits" id="minutes-box"></div><div class="label">Minutes</div></div>
     <div class="unit"><div class="digits" id="seconds-box"></div><div class="label">Seconds</div></div>
   </div>
+
   <div class="date-row"><div class="rule"></div><div class="date">MAY 14 - 17, 2027</div><div class="rule"></div></div>
   <div class="lower-art"><img src="institutional-seal.png" alt="Institutional Crest Silhouette"></div>
 </div>
+
 <script>
 const targetDate = new Date("May 14, 2027 09:00:00").getTime();
 function createFlipCardHtml(initialVal) {
@@ -200,23 +219,10 @@ function processClockTick() {
 processClockTick();
 setInterval(processClockTick, 1000);
 
-/* FIX 2: Screen Wake Lock Integration to prevent sleep/screensaver */
-let wakeLockInstance = null;
-async function requestScreenWakeLock() {
-  try {
-    if ('wakeLock' in navigator) {
-      wakeLockInstance = await navigator.wakeLock.request('screen');
-    }
-  } catch (err) {
-    console.log(`Wake Lock Error: ${err.name}, Message: ${err.message}`);
-  }
-}
-requestScreenWakeLock();
-document.addEventListener('visibilitychange', async () => {
-  if (wakeLockInstance !== null && document.visibilityState === 'visible') {
-    requestScreenWakeLock();
-  }
-});
+/* Safe resizing trigger cycle to act as a soft heartbeat stay-awake hook */
+setInterval(function() {
+  window.dispatchEvent(new Event('resize'));
+}, 30000);
 </script>
 </body>
 </html>
