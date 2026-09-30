@@ -78,6 +78,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;overflow:hidden;}
   position:relative;
   width:clamp(48px,7.25vh,88px);
   height:clamp(66px,9.4vh,114px);
+
   perspective:1400px;
   filter:drop-shadow(0 8px 10px rgba(0,0,0,.30));
 }
@@ -158,6 +159,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;overflow:hidden;}
   position:relative;
   justify-content:flex-start;
   padding:2.7vw 4vh 0;
+
   overflow:hidden;
   background:
     radial-gradient(circle at 20% 76%, rgba(201,151,0,.18), transparent 16%),
@@ -238,6 +240,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;overflow:hidden;}
   display:flex;
   align-items:flex-end;
   justify-content:flex-end;
+
 }
 .lower-art::before{
   content:"";
@@ -318,6 +321,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;overflow:hidden;}
   width:94% !important;
   margin:0 auto 2.2vw !important;
 }
+
 .official-nova img{
   width:min(80vh,900px) !important;
   height:auto !important;
@@ -398,6 +402,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;overflow:hidden;}
   filter:
     drop-shadow(0 0 18px rgba(185,255,207,.68))
     drop-shadow(0 0 42px rgba(79,255,140,.50))
+
     drop-shadow(0 0 76px rgba(25,220,101,.28))
     drop-shadow(0 8px 22px rgba(0,0,0,.20)) !important;
 }
@@ -478,6 +483,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;overflow:hidden;}
     radial-gradient(circle at 19% 8%, rgba(185,176,64,.24) 0 2.8%, transparent 7.5%),
     radial-gradient(circle at 76% 9%, rgba(168,169,64,.20) 0 2.5%, transparent 7%),
     radial-gradient(circle at 92% 17%, rgba(128,158,65,.20) 0 3%, transparent 8%),
+
     radial-gradient(circle at 11% 38%, rgba(183,177,56,.27) 0 2.7%, transparent 8%),
     radial-gradient(circle at 31% 29%, rgba(118,157,72,.18) 0 3.2%, transparent 9%),
     radial-gradient(circle at 69% 35%, rgba(121,155,66,.18) 0 3%, transparent 8%),
@@ -638,6 +644,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;overflow:hidden;}
     flex:0 0 6.5vw !important;
     width:100% !important;
     margin:.7vw auto 0 !important;
+
     display:flex !important;
     align-items:center !important;
     justify-content:center !important;
@@ -718,6 +725,7 @@ body{font-family:Arial,Helvetica,sans-serif;color:white;overflow:hidden;}
 html, body {
   width:100%;
   height:100%;
+
   margin:0;
   overflow:hidden;
   background:#046A38;
@@ -799,6 +807,7 @@ html, body {
   transform-origin: center center !important;
 }
 
+
 /* Date/time: 1.32 -> 1.48 is about 12% larger */
 #portrait-tv-rotation .date {
   transform: scale(1.48) !important;
@@ -878,6 +887,7 @@ html, body {
 #portrait-tv-rotation .unit {
   min-width: 0 !important;
   width: 100% !important;
+
 }
 
 /* Slightly reduce each individual number card so the true 1/2-inch
@@ -915,6 +925,51 @@ html, body {
   backface-visibility:hidden !important;
   -webkit-backface-visibility:hidden !important;
   will-change:transform !important;
+}
+</style>
+
+
+<!-- FINAL COUNTDOWN GROUPING FIX: keep digits tight, separate units, center labels -->
+<style id="final-countdown-grouping-fix">
+#portrait-tv-rotation .countdown {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  width: 96% !important;
+  max-width: 96% !important;
+  gap: clamp(24px, 3.6vh, 46px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+#portrait-tv-rotation .countdown .unit {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+#portrait-tv-rotation .countdown .digits {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: auto !important;
+  gap: clamp(4px, .42vh, 7px) !important;
+}
+
+#portrait-tv-rotation .countdown .label {
+  display: block !important;
+  width: 100% !important;
+  margin-top: .65vw !important;
+  text-align: center !important;
+  align-self: center !important;
+
+  white-space: nowrap !important;
 }
 </style>
 
@@ -994,6 +1049,7 @@ function render(initial=false){
     groups[name].forEach((card,i)=>initial?snap(card,str[i]):flip(card,str[i]));
   }
   const sr=document.getElementById("srStatus");
+
   if(Date.now()>=target){
     document.getElementById("dateLine").textContent="COMMENCEMENT DAY IS HERE";
     sr.textContent="Commencement Day is here.";
