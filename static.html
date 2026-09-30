@@ -893,81 +893,73 @@ html, body {
 </style>
 
 
-<style id="fire-tv-final-countdown-fix">
-/* Keep the four groups comfortably separated. */
+<style id="fire-tv-card-margin-fix">
+/* Force visible spacing between individual digits. Margin is used instead of
+   flex gap because Downloader/Fire TV is not honoring the earlier gap override. */
+#portrait-tv-rotation .digits {
+  gap: 0 !important;
+  overflow: visible !important;
+}
+#portrait-tv-rotation .digits .flip-card {
+  width: 48px !important;
+  height: 68px !important;
+  flex: 0 0 48px !important;
+  margin: 0 !important;
+  perspective: 1200px !important;
+  overflow: visible !important;
+}
+#portrait-tv-rotation .digits .flip-card:not(:last-child) {
+  margin-right: 9px !important;
+}
+#portrait-tv-rotation .flip-card .card-half span,
+#portrait-tv-rotation .flip-card .flip-half span {
+  font-size: 46px !important;
+  letter-spacing: 0 !important;
+}
+/* Preserve separation between the four time groups. */
 #portrait-tv-rotation .countdown {
   width: 96% !important;
   max-width: 96% !important;
-  grid-template-columns: 1.30fr .96fr .96fr .96fr !important;
-  column-gap: 26px !important;
+  column-gap: 24px !important;
 }
-
-/* THIS is the actual container holding the individual number cards. */
-#portrait-tv-rotation .unit > .digits {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 10px !important;
-  width: 100% !important;
-  height: auto !important;
+/* Make the flip a little slower/more obvious on the TV. */
+#portrait-tv-rotation .flip-card.flipping .flip-half.top {
+  animation: tvFlipTop .38s cubic-bezier(.55,.05,.85,.35) forwards !important;
+  -webkit-animation: tvFlipTop .38s cubic-bezier(.55,.05,.85,.35) forwards !important;
 }
-
-/* Slightly smaller cards so there is visible room for the 3-D flip. */
-#portrait-tv-rotation .unit > .digits > .flip-card {
-  flex: 0 0 52px !important;
-  width: 52px !important;
-  height: 72px !important;
-  perspective: 1000px !important;
-  overflow: visible !important;
-  isolation: isolate !important;
+#portrait-tv-rotation .flip-card.flipping .flip-half.bottom {
+  animation: tvFlipBottom .38s .38s cubic-bezier(.15,.45,.25,1) forwards !important;
+  -webkit-animation: tvFlipBottom .38s .38s cubic-bezier(.15,.45,.25,1) forwards !important;
 }
+@keyframes tvFlipTop { from{transform:rotateX(0deg)} to{transform:rotateX(-90deg)} }
+@keyframes tvFlipBottom { from{transform:rotateX(90deg)} to{transform:rotateX(0deg)} }
+@-webkit-keyframes tvFlipTop { from{-webkit-transform:rotateX(0deg)} to{-webkit-transform:rotateX(-90deg)} }
+@-webkit-keyframes tvFlipBottom { from{-webkit-transform:rotateX(90deg)} to{-webkit-transform:rotateX(0deg)} }
+</style>
 
-/* Slightly smaller numeral inside the card; date and other text are untouched. */
+
+<style id="fire-tv-smaller-black-cards">
+/* Make ONLY the physical black countdown cards smaller.
+   Other text/logo/date/mascot sizing stays unchanged. */
+#portrait-tv-rotation .digits .flip-card {
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  flex: 0 0 42px !important;
+  height: 62px !important;
+  margin: 0 !important;
+}
+#portrait-tv-rotation .digits .flip-card:not(:last-child) {
+  margin-right: 10px !important;
+}
 #portrait-tv-rotation .flip-card .card-half span,
 #portrait-tv-rotation .flip-card .flip-half span {
-  font-size: 50px !important;
-  letter-spacing: 0 !important;
+  font-size: 40px !important;
 }
-
-/* Give the moving halves their own rendering layer on Fire TV. */
-#portrait-tv-rotation .flip-half {
-  display: block !important;
-  backface-visibility: hidden !important;
-  -webkit-backface-visibility: hidden !important;
-  transform-style: preserve-3d !important;
-  -webkit-transform-style: preserve-3d !important;
-  will-change: transform !important;
-}
-
-#portrait-tv-rotation .flip-card.flipping {
-  z-index: 20 !important;
-}
-
-#portrait-tv-rotation .flip-card.flipping .flip-half.top {
-  animation: fireTvFlipTop .34s cubic-bezier(.55,.05,.85,.35) forwards !important;
-  -webkit-animation: fireTvFlipTop .34s cubic-bezier(.55,.05,.85,.35) forwards !important;
-}
-
-#portrait-tv-rotation .flip-card.flipping .flip-half.bottom {
-  animation: fireTvFlipBottom .34s .34s cubic-bezier(.15,.45,.25,1) forwards !important;
-  -webkit-animation: fireTvFlipBottom .34s .34s cubic-bezier(.15,.45,.25,1) forwards !important;
-}
-
-@keyframes fireTvFlipTop {
-  from { transform: rotateX(0deg); }
-  to   { transform: rotateX(-90deg); }
-}
-@keyframes fireTvFlipBottom {
-  from { transform: rotateX(90deg); }
-  to   { transform: rotateX(0deg); }
-}
-@-webkit-keyframes fireTvFlipTop {
-  from { -webkit-transform: rotateX(0deg); }
-  to   { -webkit-transform: rotateX(-90deg); }
-}
-@-webkit-keyframes fireTvFlipBottom {
-  from { -webkit-transform: rotateX(90deg); }
-  to   { -webkit-transform: rotateX(0deg); }
+/* Keep each group centered despite the smaller cards. */
+#portrait-tv-rotation .unit > .digits {
+  justify-content: center !important;
+  overflow: visible !important;
 }
 </style>
 
@@ -1029,8 +1021,8 @@ function flip(card,next){
   flipTop=card.querySelector(".flip-top span"),flipBottom=card.querySelector(".flip-bottom span");
   staticTop.textContent=next;staticBottom.textContent=current;flipTop.textContent=current;flipBottom.textContent=next;
   card.classList.remove("flipping");void card.offsetWidth;card.classList.add("flipping");
-  setTimeout(()=>{staticBottom.textContent=next},340);
-  setTimeout(()=>{card.classList.remove("flipping");snap(card,next)},720);
+  setTimeout(()=>{staticBottom.textContent=next},380);
+  setTimeout(()=>{card.classList.remove("flipping");snap(card,next)},800);
 }
 function remaining(){
   let diff=Math.max(0,target-Date.now());
