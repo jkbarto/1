@@ -892,6 +892,32 @@ html, body {
 }
 </style>
 
+
+<style id="portrait-tv-flip-visibility-fix">
+#portrait-tv-rotation .countdown {
+  width:94% !important; max-width:94% !important;
+  grid-template-columns:1.30fr .96fr .96fr .96fr !important;
+  column-gap:3.2% !important;
+}
+#portrait-tv-rotation .digits,
+#portrait-tv-rotation .cards,
+#portrait-tv-rotation .number-row { gap:clamp(5px,.55vh,9px) !important; }
+#portrait-tv-rotation .flip-card {
+  width:clamp(48px,6.45vh,82px) !important;
+  overflow:visible !important; perspective:700px !important;
+}
+#portrait-tv-rotation .card-half span,
+#portrait-tv-rotation .flip-half span {
+  font-size:clamp(46px,6.2vh,78px) !important;
+}
+#portrait-tv-rotation .flip-card.flipping { z-index:10 !important; }
+#portrait-tv-rotation .flip-half {
+  backface-visibility:hidden !important;
+  -webkit-backface-visibility:hidden !important;
+  will-change:transform !important;
+}
+</style>
+
 </head>
 <body>
 <div id="portrait-tv-rotation">
