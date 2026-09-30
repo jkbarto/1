@@ -893,28 +893,47 @@ html, body {
 </style>
 
 
-<style id="portrait-tv-flip-visibility-fix">
+<style id="portrait-tv-digit-spacing-final">
+/* Keep the larger gaps between DAYS / HOURS / MINUTES / SECONDS */
 #portrait-tv-rotation .countdown {
-  width:94% !important; max-width:94% !important;
-  grid-template-columns:1.30fr .96fr .96fr .96fr !important;
-  column-gap:3.2% !important;
+  transform: none !important;
+  width: 94% !important;
+  max-width: 94% !important;
+  display: grid !important;
+  grid-template-columns: 1.30fr .96fr .96fr .96fr !important;
+  column-gap: 3.2% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
 }
+
+#portrait-tv-rotation .unit {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+/* Add visible spacing between the individual number cards. */
 #portrait-tv-rotation .digits,
 #portrait-tv-rotation .cards,
-#portrait-tv-rotation .number-row { gap:clamp(5px,.55vh,9px) !important; }
-#portrait-tv-rotation .flip-card {
-  width:clamp(48px,6.45vh,82px) !important;
-  overflow:visible !important; perspective:700px !important;
+#portrait-tv-rotation .flip-cards {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 5px !important;
 }
+
+/* Slightly narrow each card so all digits and gaps fit on the TV. */
+#portrait-tv-rotation .flip-card {
+  width: clamp(48px, 6.6vh, 84px) !important;
+  margin-left: 2px !important;
+  margin-right: 2px !important;
+  flex: 0 0 auto !important;
+}
+
+/* Keep the numbers large and readable. */
 #portrait-tv-rotation .card-half span,
 #portrait-tv-rotation .flip-half span {
-  font-size:clamp(46px,6.2vh,78px) !important;
-}
-#portrait-tv-rotation .flip-card.flipping { z-index:10 !important; }
-#portrait-tv-rotation .flip-half {
-  backface-visibility:hidden !important;
-  -webkit-backface-visibility:hidden !important;
-  will-change:transform !important;
+  font-size: clamp(47px, 6.45vh, 82px) !important;
 }
 </style>
 
