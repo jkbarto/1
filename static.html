@@ -893,47 +893,81 @@ html, body {
 </style>
 
 
-<style id="portrait-tv-digit-spacing-final">
-/* Keep the larger gaps between DAYS / HOURS / MINUTES / SECONDS */
+<style id="fire-tv-final-countdown-fix">
+/* Keep the four groups comfortably separated. */
 #portrait-tv-rotation .countdown {
-  transform: none !important;
-  width: 94% !important;
-  max-width: 94% !important;
-  display: grid !important;
+  width: 96% !important;
+  max-width: 96% !important;
   grid-template-columns: 1.30fr .96fr .96fr .96fr !important;
-  column-gap: 3.2% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  box-sizing: border-box !important;
+  column-gap: 26px !important;
 }
 
-#portrait-tv-rotation .unit {
-  min-width: 0 !important;
-  width: 100% !important;
-}
-
-/* Add visible spacing between the individual number cards. */
-#portrait-tv-rotation .digits,
-#portrait-tv-rotation .cards,
-#portrait-tv-rotation .flip-cards {
+/* THIS is the actual container holding the individual number cards. */
+#portrait-tv-rotation .unit > .digits {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  gap: 5px !important;
+  gap: 10px !important;
+  width: 100% !important;
+  height: auto !important;
 }
 
-/* Slightly narrow each card so all digits and gaps fit on the TV. */
-#portrait-tv-rotation .flip-card {
-  width: clamp(48px, 6.6vh, 84px) !important;
-  margin-left: 2px !important;
-  margin-right: 2px !important;
-  flex: 0 0 auto !important;
+/* Slightly smaller cards so there is visible room for the 3-D flip. */
+#portrait-tv-rotation .unit > .digits > .flip-card {
+  flex: 0 0 52px !important;
+  width: 52px !important;
+  height: 72px !important;
+  perspective: 1000px !important;
+  overflow: visible !important;
+  isolation: isolate !important;
 }
 
-/* Keep the numbers large and readable. */
-#portrait-tv-rotation .card-half span,
-#portrait-tv-rotation .flip-half span {
-  font-size: clamp(47px, 6.45vh, 82px) !important;
+/* Slightly smaller numeral inside the card; date and other text are untouched. */
+#portrait-tv-rotation .flip-card .card-half span,
+#portrait-tv-rotation .flip-card .flip-half span {
+  font-size: 50px !important;
+  letter-spacing: 0 !important;
+}
+
+/* Give the moving halves their own rendering layer on Fire TV. */
+#portrait-tv-rotation .flip-half {
+  display: block !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  transform-style: preserve-3d !important;
+  -webkit-transform-style: preserve-3d !important;
+  will-change: transform !important;
+}
+
+#portrait-tv-rotation .flip-card.flipping {
+  z-index: 20 !important;
+}
+
+#portrait-tv-rotation .flip-card.flipping .flip-half.top {
+  animation: fireTvFlipTop .34s cubic-bezier(.55,.05,.85,.35) forwards !important;
+  -webkit-animation: fireTvFlipTop .34s cubic-bezier(.55,.05,.85,.35) forwards !important;
+}
+
+#portrait-tv-rotation .flip-card.flipping .flip-half.bottom {
+  animation: fireTvFlipBottom .34s .34s cubic-bezier(.15,.45,.25,1) forwards !important;
+  -webkit-animation: fireTvFlipBottom .34s .34s cubic-bezier(.15,.45,.25,1) forwards !important;
+}
+
+@keyframes fireTvFlipTop {
+  from { transform: rotateX(0deg); }
+  to   { transform: rotateX(-90deg); }
+}
+@keyframes fireTvFlipBottom {
+  from { transform: rotateX(90deg); }
+  to   { transform: rotateX(0deg); }
+}
+@-webkit-keyframes fireTvFlipTop {
+  from { -webkit-transform: rotateX(0deg); }
+  to   { -webkit-transform: rotateX(-90deg); }
+}
+@-webkit-keyframes fireTvFlipBottom {
+  from { -webkit-transform: rotateX(90deg); }
+  to   { -webkit-transform: rotateX(0deg); }
 }
 </style>
 
@@ -995,8 +1029,8 @@ function flip(card,next){
   flipTop=card.querySelector(".flip-top span"),flipBottom=card.querySelector(".flip-bottom span");
   staticTop.textContent=next;staticBottom.textContent=current;flipTop.textContent=current;flipBottom.textContent=next;
   card.classList.remove("flipping");void card.offsetWidth;card.classList.add("flipping");
-  setTimeout(()=>{staticBottom.textContent=next},280);
-  setTimeout(()=>{card.classList.remove("flipping");snap(card,next)},590);
+  setTimeout(()=>{staticBottom.textContent=next},340);
+  setTimeout(()=>{card.classList.remove("flipping");snap(card,next)},720);
 }
 function remaining(){
   let diff=Math.max(0,target-Date.now());
