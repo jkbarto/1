@@ -2672,63 +2672,53 @@ html, body {
 
  
 
-<style id="date-genius-crossfade">
+<style id="date-genius-overlay-fix">
 
-/* Only the existing date area changes; all other approved signage stays untouched. */
+/* FINAL TIMING: preserve original date layout; larger Genius Move overlay alternates every 60 seconds. */
 
-#portrait-tv-rotation .date-campaign-slot{
+#portrait-tv-rotation .date-row{position:relative !important;}
 
-  position:relative !important;
+#portrait-tv-rotation #dateLine{
 
-  width:46vh !important;
-
-  height:6.8vh !important;
-
-  max-width:none !important;
-
-  display:flex !important;
-
-  align-items:center !important;
-
-  justify-content:center !important;
+  transition:opacity 1.8s ease-in-out !important;
 
 }
 
-#portrait-tv-rotation .date-campaign-slot .date-view,
-
-#portrait-tv-rotation .date-campaign-slot .genius-view{
+#portrait-tv-rotation .date-genius-overlay{
 
   position:absolute !important;
 
-  inset:0 !important;
+  left:50% !important;
+
+  top:50% !important;
+
+  transform:translate(-50%,-50%) !important;
+
+  width:100% !important;
 
   display:flex !important;
+
+  flex-direction:column !important;
 
   align-items:center !important;
 
   justify-content:center !important;
 
-  transition:opacity 1.25s ease-in-out !important;
-
-}
-
-#portrait-tv-rotation .date-campaign-slot .date-view{opacity:1;white-space:nowrap;}
-
-#portrait-tv-rotation .date-campaign-slot .genius-view{
-
   opacity:0;
 
-  flex-direction:column !important;
+  pointer-events:none;
 
-  gap:.55vh !important;
+  transition:opacity 1.8s ease-in-out !important;
+
+  line-height:1 !important;
 
 }
 
-#portrait-tv-rotation .date-campaign-slot.show-genius .date-view{opacity:0;}
+#portrait-tv-rotation .date-row.show-genius #dateLine{opacity:0 !important;}
 
-#portrait-tv-rotation .date-campaign-slot.show-genius .genius-view{opacity:1;}
+#portrait-tv-rotation .date-row.show-genius .date-genius-overlay{opacity:1 !important;}
 
-#portrait-tv-rotation .genius-lockup{
+#portrait-tv-rotation .date-genius-logo{
 
   display:flex !important;
 
@@ -2736,45 +2726,47 @@ html, body {
 
   justify-content:center !important;
 
-  gap:1.1vh !important;
+  gap:1.0vh !important;
+
+  white-space:nowrap !important;
 
   font-family:Arial Black,Arial,Helvetica,sans-serif !important;
 
   font-weight:900 !important;
 
-  line-height:.82 !important;
-
-  letter-spacing:-.055em !important;
+  letter-spacing:-.045em !important;
 
 }
 
-#portrait-tv-rotation .genius-solid,
+#portrait-tv-rotation .date-genius-solid,
 
-#portrait-tv-rotation .genius-outline{font-size:4.65vh !important;}
+#portrait-tv-rotation .date-genius-outline{font-size:5.20vh !important;}
 
-#portrait-tv-rotation .genius-solid{color:#FFDD00 !important;}
+#portrait-tv-rotation .date-genius-solid{color:#FFDD00 !important;}
 
-#portrait-tv-rotation .genius-outline{
+#portrait-tv-rotation .date-genius-outline{
 
   color:transparent !important;
 
-  -webkit-text-stroke:.12vh #FFDD00 !important;
+  -webkit-text-stroke:.18vh #FFDD00 !important;
 
-  text-stroke:.12vh #FFDD00 !important;
+  text-stroke:.18vh #FFDD00 !important;
 
 }
 
-#portrait-tv-rotation .genius-tagline{
+#portrait-tv-rotation .date-genius-tagline{
+
+  margin-top:.58vh !important;
 
   color:#fff !important;
 
   font-family:Arial,Helvetica,sans-serif !important;
 
-  font-size:1.22vh !important;
+  font-size:1.88vh !important;
 
   font-weight:700 !important;
 
-  letter-spacing:.16em !important;
+  letter-spacing:.12em !important;
 
   white-space:nowrap !important;
 
@@ -2828,17 +2820,13 @@ html, body {
 
     <span class="rule"></span>
 
-    <div class="date date-campaign-slot" id="dateLine">
+    <div class="date" id="dateLine">MAY 17, 2027 • 11:00 AM</div>
 
-      <span class="date-view">MAY 17, 2027 • 11:00 AM</span>
+    <div class="date-genius-overlay" aria-hidden="true">
 
-      <span class="genius-view" aria-hidden="true">
+      <div class="date-genius-logo"><span class="date-genius-solid">GENIUS</span><span class="date-genius-outline">MOVE</span></div>
 
-        <span class="genius-lockup"><span class="genius-solid">GENIUS</span><span class="genius-outline">MOVE</span></span>
-
-        <span class="genius-tagline">FROM CONNECTION TO COMPLETION.</span>
-
-      </span>
+      <div class="date-genius-tagline">FROM CONNECTION TO COMMENCEMENT.</div>
 
     </div>
 
@@ -3056,19 +3044,21 @@ render(true);setInterval(()=>render(false),1000);
 
  
 
-<script id="date-genius-cycle">
+<script id="date-genius-overlay-cycle">
 
-(function(){
+(() => {
 
-  const slot=document.getElementById('dateLine');
+  const row=document.querySelector('#portrait-tv-rotation .date-row');
 
-  if(!slot) return;
+  if(!row) return;
 
-  const DATE_MS=20000, GENIUS_MS=8000;
+  const DATE_MS=60000;
+
+  const GENIUS_MS=60000;
 
   function showGenius(){
 
-    slot.classList.add('show-genius');
+    row.classList.add('show-genius');
 
     setTimeout(showDate,GENIUS_MS);
 
@@ -3076,7 +3066,7 @@ render(true);setInterval(()=>render(false),1000);
 
   function showDate(){
 
-    slot.classList.remove('show-genius');
+    row.classList.remove('show-genius');
 
     setTimeout(showGenius,DATE_MS);
 
